@@ -11,7 +11,7 @@ function HomePage() {
     setLoading(true);
     try {
       await logout();
-      return navigate("/");
+      navigate("/");
     } catch {
       alert("error");
     }

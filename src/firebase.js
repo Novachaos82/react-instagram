@@ -39,9 +39,9 @@ const firebaseConfig = {
 
 //export const auth = getAuth(app)
 
-const app = initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 const googleProvider = new GoogleAuthProvider();
 export const signInWithGoogle = () => {
@@ -75,7 +75,7 @@ export const logInWithEmailAndPassword = async (email, password) => {
 };
 
 export const logout = () => {
-  signOut(auth);
+  return signOut(auth);
 };
 
 export const registerWithEmailAndPassword = async (email, password) => {
