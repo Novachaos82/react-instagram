@@ -7,17 +7,28 @@ import {
   logInWithEmailAndPassword,
 } from "../firebase";
 
+import { useNavigate } from "react-router-dom";
+
 function LoginPage() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const currentUser = useAuth();
-  if (currentUser) {
-    console.log(currentUser.email);
-  }
+
+  const navigate = useNavigate();
+  //if (currentUser) {
+  //  console.log(currentUser.email);
+  //}
+
+  //useEffect(() => {
+  //  console.log(emailRef.current.value);
+  //}, [emailRef]);
 
   useEffect(() => {
-    console.log(emailRef.current.value);
-  }, [emailRef]);
+    if (currentUser) {
+      navigate("/home");
+    }
+    console.log(currentUser);
+  }, [currentUser, navigate]);
 
   const handleLogin = async () => {
     try {
@@ -37,6 +48,15 @@ function LoginPage() {
     } catch {}
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch {
+      alert("error");
+    }
+  };
+
   return (
     <div>
       <input ref={emailRef} placeholder="email" type="text"></input>
@@ -45,7 +65,7 @@ function LoginPage() {
       <button onClick={handleLogin}>Login</button>
       <button onClick={signInWithGoogle}>sign in with google</button>
       <button onClick={handleRegister}>Register</button>
-      <button onClick={logout}>logout</button>
+      <button onClick={handleLogout}>logout</button>
     </div>
   );
 }

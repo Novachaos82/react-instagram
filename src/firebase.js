@@ -40,7 +40,7 @@ const firebaseConfig = {
 //export const auth = getAuth(app)
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
 const db = getFirestore(app);
 
 const googleProvider = new GoogleAuthProvider();
@@ -54,6 +54,17 @@ export const signInWithGoogle = () => {
     });
 };
 
+export const useAuth = () => {
+  const [currentUser, setCurrentUser] = useState();
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+    return unsub;
+  }, []);
+  return currentUser;
+};
+
 export const logInWithEmailAndPassword = async (email, password) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
@@ -61,6 +72,10 @@ export const logInWithEmailAndPassword = async (email, password) => {
     console.error(err);
     alert(err.message);
   }
+};
+
+export const logout = () => {
+  signOut(auth);
 };
 
 export const registerWithEmailAndPassword = async (email, password) => {
@@ -87,19 +102,4 @@ export const sendPasswordReset = async (email) => {
     console.error(err);
     alert(err.message);
   }
-};
-
-export const logout = () => {
-  signOut(auth);
-};
-
-export const useAuth = () => {
-  const [currentUser, setCurrentUser] = useState();
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-    });
-    return unsub;
-  }, []);
-  return currentUser;
 };
