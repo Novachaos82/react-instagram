@@ -1,43 +1,48 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../../firebase";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { AiFillHome, AiFillMessage } from "react-icons/ai";
+import Profilepicpopup from "../profile/profilepicpopup";
+import { useAuth } from "../../firebase";
 //import {instaText} from "../../assets";
 
 function NavLinks() {
-  const [loading, setLoading] = useState(false);
+  const currentUser = useAuth();
+  const [profilePicPopup, setProfilePicPopup] = useState(false);
 
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    setLoading(true);
-    try {
-      await logout();
-      navigate("/");
-    } catch {
-      alert("error");
-    }
-    setLoading(false);
+  const handleProfilePopup = () => {
+    setProfilePicPopup(true);
   };
+  if (currentUser) {
+  }
 
   return (
-    <div>
-      <div>
+    <div className=" flex  flex-row justify-center items-center mt-2">
+      <div className="text-center flex justify-center items-center gap-5 flex-row">
         <Link to="/home">
-          <img src="../../assets/instaText.png" alt="instatext" srcset="" />
+          <img src="../../assets/instaText.png" alt="instatext" />
         </Link>
-      </div>
-      <div>
         <Link to="/home">
           <AiFillHome />
         </Link>
         <Link to="/inbox">
           <AiFillMessage />
         </Link>
-        <button disabled={loading} onClick={handleLogout}>
-          logout
-        </button>
+        <div>
+          <div onClick={handleProfilePopup}>
+            <img
+              className="rounded-full h-8 w-8"
+              src={currentUser.photoURL}
+              alt="profile"
+            ></img>
+          </div>
+          {profilePicPopup ? (
+            <Profilepicpopup
+              className="flex"
+              cancelPopup={() => setProfilePicPopup(false)}
+            />
+          ) : null}
+        </div>
       </div>
     </div>
   );
