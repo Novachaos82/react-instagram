@@ -29,10 +29,10 @@ function NavLinks() {
           <AiFillMessage />
         </Link>
         <div>
-          <div onClick={handleProfilePopup}>
+          <div onClick={handleProfilePopup} className="relative">
             <img
               className="rounded-full h-8 w-8"
-              src={currentUser.photoURL}
+              src={currentUser?.photoURL}
               alt="profile"
             ></img>
           </div>

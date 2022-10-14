@@ -17,7 +17,10 @@ function Profilepicpopup({ cancelPopup }) {
     setLoading(false);
   };
   return (
-    <div onClick={() => cancelPopup()} className="z-50">
+    <div
+      onClick={() => cancelPopup()}
+      className="z-50 fixed justify-center flex left-[595px] "
+    >
       <div className=" bg-black text-white  rounded-lg p-4 ">
         <div onClick={handleLogout} className="cursor-pointer">
           logout
