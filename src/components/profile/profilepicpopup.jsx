@@ -18,7 +18,7 @@ function Profilepicpopup({ cancelPopup }) {
   };
   return (
     <div onClick={() => cancelPopup()} className=" bg-yellow-200">
-      <div className=" bg-black text-white  rounded-lg p-4 z-50 fixed top-10">
+      <div className=" bg-black text-white  rounded-lg p-4 fixed top-10">
         <div onClick={handleLogout} className="cursor-pointer">
           logout
         </div>

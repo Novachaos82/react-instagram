@@ -6,20 +6,28 @@ import Profilepicpopup from "../profile/profilepicpopup";
 import { db, useAuth } from "../../firebase";
 import instaText from "../../images/images.png";
 import { collection, getDocs } from "firebase/firestore";
+import NewPostPopup from "../post/NewPostPopup";
 
 function NavLinks() {
   const currentUser = useAuth();
   const [profilePicPopup, setProfilePicPopup] = useState(false);
+  const [postPopup, setPostPopup] = useState(false);
   const userCollectionRef = collection(db, "users");
 
   const handleProfilePopup = () => {
     setProfilePicPopup(!profilePicPopup);
   };
 
+  const handlePostPopup = () => {
+    setPostPopup(!postPopup);
+  };
+
   useEffect(() => {
     const getUsers = async () => {
       const data = await getDocs(userCollectionRef);
-      console.log(data);
+      data.docs.map((doc) => {
+        console.log({ ...doc.data(), id: doc.id });
+      });
     };
     getUsers();
   }, [userCollectionRef]);
@@ -40,9 +48,15 @@ function NavLinks() {
         <Link to="/inbox">
           <AiFillMessage size={28} />
         </Link>
-        <button>
-          <AiFillPlusCircle size={28} />
-        </button>
+        <div>
+          <button onClick={handlePostPopup}>
+            <AiFillPlusCircle size={28} />
+          </button>
+          {postPopup ? (
+            <NewPostPopup cancelPopup={() => setPostPopup(false)} />
+          ) : null}
+        </div>
+
         <div>
           <div onClick={handleProfilePopup} className="relative cursor-pointer">
             <img

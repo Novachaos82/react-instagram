@@ -7,6 +7,7 @@ module.exports = {
         loginBg: "#fafafa",
         loginContainer: "#ffffff",
         loginBlue: "#0095f6",
+        popupBG: "#252525",
       },
     },
   },
