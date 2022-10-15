@@ -7,6 +7,8 @@ import {
   logInWithEmailAndPassword,
 } from "../firebase";
 
+import images from "../images/images.png";
+
 import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
@@ -58,14 +60,47 @@ function LoginPage() {
   };
 
   return (
-    <div>
-      <input ref={emailRef} placeholder="email" type="text"></input>
-      <input ref={passwordRef} placeholder="password"></input>
+    <div className="justify-center flex items-center h-screen bg-loginBg w-screen flex-col gap-8">
+      <div className="bg-loginContainer border border-gray-400 p-8 flex  flex-col gap-2 w-[350px] justify-center">
+        <div className="  flex justify-center items-center p-8">
+          <img src={images} alt="nothing" className="w-[200px]" />
+        </div>
 
-      <button onClick={handleLogin}>Login</button>
-      <button onClick={signInWithGoogle}>sign in with google</button>
-      <button onClick={handleRegister}>Register</button>
-      <button onClick={handleLogout}>logout</button>
+        <div className="flex flex-col gap-2">
+          <input
+            className="inputs"
+            ref={emailRef}
+            placeholder="email"
+            type="text"
+          ></input>
+          <input
+            className="inputs"
+            ref={passwordRef}
+            placeholder="password"
+          ></input>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <button className="loginButton" onClick={handleLogin}>
+            Login
+          </button>
+          <button className="loginButton" onClick={signInWithGoogle}>
+            login(google)
+          </button>
+
+          <button className="loginButton" onClick={handleLogout}>
+            logout
+          </button>
+        </div>
+      </div>
+      <div className="bg-loginContainer border border-gray-400 p-4 flex  flex-col gap-2 w-[350px] justify-center items-center ">
+        <p className="text-gray-600 tracking-wide">
+          Don't have an account?
+          <button className="text-blue-500" onClick={handleRegister}>
+            Register
+          </button>
+        </p>
+      </div>
     </div>
   );
 }

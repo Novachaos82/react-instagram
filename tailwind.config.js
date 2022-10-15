@@ -2,7 +2,13 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        loginBg: "#fafafa",
+        loginContainer: "#ffffff",
+        loginBlue: "#0095f6",
+      },
+    },
   },
   plugins: [],
 };
