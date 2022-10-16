@@ -48,7 +48,7 @@ function NavLinks() {
         <Link to="/inbox">
           <AiFillMessage size={28} />
         </Link>
-        <div>
+        <div className="flex justify-center">
           <button onClick={handlePostPopup}>
             <AiFillPlusCircle size={28} />
           </button>
