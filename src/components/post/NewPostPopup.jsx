@@ -30,7 +30,7 @@ function NewPostPopup({ cancelPopup }) {
       setImage(null);
     });
 
-    console.log(url + ">>>>>url");
+    //console.log(url + ">>>>>url");
   };
 
   useEffect(() => {
@@ -82,7 +82,6 @@ function NewPostPopup({ cancelPopup }) {
             className="flex justify-center items-center"
             src={postPopupImg}
             alt="posrtpopupimg"
-            srcset=""
           />
           <div className="text-2xl  font-normal">Add image From computer +</div>
           <input type="file" onChange={fileUploader}></input>

@@ -22,15 +22,15 @@ function NavLinks() {
     setPostPopup(!postPopup);
   };
 
-  useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(userCollectionRef);
-      data.docs.map((doc) => {
-        console.log({ ...doc.data(), id: doc.id });
-      });
-    };
-    getUsers();
-  }, [userCollectionRef]);
+  //useEffect(() => {
+  //  const getUsers = async () => {
+  //    const data = await getDocs(userCollectionRef);
+  //    data.docs.map((doc) => {
+  //      //console.log({ ...doc.data(), id: doc.id });
+  //    });
+  //  };
+  //  getUsers();
+  //}, [userCollectionRef]);
 
   return (
     <div className=" flex  flex-row justify-center items-center mt-2">

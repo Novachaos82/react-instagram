@@ -1,4 +1,3 @@
-import { map } from "@firebase/util";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../firebase";
@@ -12,14 +11,18 @@ function Posts() {
       const data = await getDocs(imageDataRef);
       setImgData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
-    getImage();
-  }, [imageDataRef]);
 
-  useEffect(() => {
-    imgData.map((img) => {
-      console.log(img.imageURL);
-    });
+    getImage();
   }, []);
+
+  console.log(imgData);
+
+  //get image url through this
+  //useEffect(() => {
+  //  imgData.map((img) => {
+  //    //console.log(img.imageURL);
+  //  });
+  //}, []);
 
   useEffect(() => {}, [imgData]);
   return (
@@ -29,8 +32,8 @@ function Posts() {
           <div key={datas.id}>
             <div>
               <div>{datas.displayName}</div>
-              <img src={datas.displayImage} alt="" srcset="" />
-              <img src={datas.imageURL} alt="" srcset="" />
+              <img src={datas.displayImage} alt="" />
+              <img src={datas.imageURL} alt="" />
             </div>
           </div>
         );

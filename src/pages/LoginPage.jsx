@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 function LoginPage() {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const nameRef = useRef();
   const currentUser = useAuth();
 
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ function LoginPage() {
     if (currentUser) {
       navigate("/home");
     }
-    console.log(currentUser);
+    //console.log(currentUser);
   }, [currentUser, navigate]);
 
   const handleLogin = async () => {
@@ -44,6 +45,7 @@ function LoginPage() {
   const handleRegister = async () => {
     try {
       await registerWithEmailAndPassword(
+        nameRef.current.value,
         emailRef.current.value,
         passwordRef.current.value
       );
@@ -67,6 +69,12 @@ function LoginPage() {
         </div>
 
         <div className="flex flex-col gap-2">
+          <input
+            className="inputs"
+            ref={nameRef}
+            placeholder="Name"
+            type="text"
+          ></input>
           <input
             className="inputs"
             ref={emailRef}
