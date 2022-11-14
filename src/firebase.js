@@ -57,6 +57,7 @@ export const signInWithGoogle = async () => {
       await addDoc(collection(db, "users"), {
         uid: user.uid,
         name: user.displayName,
+        pic: user.photoURL,
         authProvider: "google",
         email: user.email,
       });

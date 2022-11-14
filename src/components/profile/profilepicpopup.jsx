@@ -19,7 +19,7 @@ function Profilepicpopup({ cancelPopup }) {
   };
 
   const handleProfileClick = () => {
-    navigate("/profile/" + currentUser.displayName);
+    navigate("/profile/" + currentUser.uid);
   };
   return (
     <div onClick={() => cancelPopup()} className=" bg-yellow-200">
