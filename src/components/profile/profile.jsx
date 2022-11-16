@@ -15,7 +15,7 @@ function Profile() {
   //);
 
   const fun1 = async () => {
-    const q = query(collection(db, "users"), where("uid", "==", username));
+    const q = query(collection(db, "imageDta"), where("uid", "==", username));
 
     const docs = await getDocs(q);
     docs.forEach((doc) => {
@@ -31,9 +31,13 @@ function Profile() {
   return (
     <div>
       <div className="flex">
-        <img className="rounded-full" src={userDetails?.pic} alt="nothing" />
+        <img
+          className="rounded-full"
+          src={userDetails?.displayImage}
+          alt="nothing"
+        />
 
-        <div>Profile {userDetails?.name}</div>
+        <div>{userDetails?.displayName}</div>
       </div>
     </div>
   );
