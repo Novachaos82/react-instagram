@@ -66,10 +66,7 @@ function NavLinks() {
             ></img>
           </div>
           {profilePicPopup ? (
-            <Profilepicpopup
-              className="flex"
-              cancelPopup={() => setProfilePicPopup(false)}
-            />
+            <Profilepicpopup cancelPopup={() => setProfilePicPopup(false)} />
           ) : null}
         </div>
       </div>
