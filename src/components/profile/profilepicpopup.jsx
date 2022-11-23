@@ -29,8 +29,8 @@ function Profilepicpopup({ cancelPopup }) {
           e.stopPropagation();
         }}
       >*/}
-      <div className="fixed w-[230px] h-[120px] left-[calc(100vw_/_2_+_150px)] top-[57px] bg-white">
-        <div className="absolute w-[100%] h-[100%] rounded-sm bg-white flex overflow-hidden flex-col">
+      <div className="fixed w-[230px] h-[120px] left-[calc(100vw_/_2_+_150px)] top-[57px] bg-white ">
+        <div className="absolute w-[100%] h-[100%] rounded-sm bg-black text-white flex overflow-hidden flex-col">
           <div
             onClick={handleLogout}
             className="cursor-pointer hover:bg-blue-300 px-4 py-2"

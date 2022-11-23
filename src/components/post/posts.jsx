@@ -20,16 +20,17 @@ function Posts() {
     getImage();
   }, []);
 
-  console.log(imgData);
-
   //get image url through this
   //useEffect(() => {
   //  imgData.map((img) => {
   //    //console.log(img.imageURL);
   //  });
   //}, []);
+  const likeClick = (id) => {
+    console.log(imgData);
+    console.log(id);
+  };
 
-  useEffect(() => {}, [imgData]);
   return (
     <div className="flex flex-col gap-28">
       {imgData.map((datas) => {
@@ -49,7 +50,14 @@ function Posts() {
 
               <img src={datas.imageURL} alt="" />
               <div className="flex p-4 gap-4">
-                <img src={like} alt="" />
+                <img
+                  onClick={() => {
+                    likeClick(datas.id);
+                  }}
+                  src={like}
+                  alt=""
+                  className="hover:scale-125 transition-all duration-200"
+                />
 
                 <img src={comment} alt="" />
                 <img src={share} alt="" />
