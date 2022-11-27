@@ -6,11 +6,11 @@ import comment from "../../images/comment.svg";
 import like from "../../images/postLike.svg";
 import share from "../../images/share.svg";
 import { Link } from "react-router-dom";
-
+import PostLikeButton from "./postLikeButton";
 function Posts() {
   const [imgData, setImgData] = useState([]);
   const imageDataRef = collection(db, "imageDta");
-
+  let postID;
   useEffect(() => {
     const getImage = async () => {
       const data = await getDocs(imageDataRef);
@@ -27,8 +27,8 @@ function Posts() {
   //  });
   //}, []);
   const likeClick = (id) => {
-    console.log(imgData);
-    console.log(id);
+    postID = id;
+    console.log(postID);
   };
 
   return (
@@ -50,13 +50,12 @@ function Posts() {
 
               <img src={datas.imageURL} alt="" />
               <div className="flex p-4 gap-4">
-                <img
+                <PostLikeButton
                   onClick={() => {
                     likeClick(datas.id);
                   }}
-                  src={like}
-                  alt=""
-                  className="hover:scale-125 transition-all duration-200"
+                  likeClickData={postID}
+                  source={like}
                 />
 
                 <img src={comment} alt="" />
