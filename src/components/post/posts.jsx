@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 
 import { db } from "../../firebase";
@@ -10,14 +10,17 @@ import PostLikeButton from "./postLikeButton";
 function Posts() {
   const [imgData, setImgData] = useState([]);
   const imageDataRef = collection(db, "imageDta");
-  let postID;
+  const [postId, setPostID] = useState(null);
   useEffect(() => {
-    const getImage = async () => {
-      const data = await getDocs(imageDataRef);
-      setImgData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
+    //const getImage = async () => {
+    //  const data = await getDocs(imageDataRef);
+    //  setImgData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    //};
+    onSnapshot(imageDataRef, (snapshot) => {
+      setImgData(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    });
 
-    getImage();
+    //getImage();
   }, []);
 
   //get image url through this
@@ -27,8 +30,7 @@ function Posts() {
   //  });
   //}, []);
   const likeClick = (id) => {
-    postID = id;
-    console.log(postID);
+    setPostID(id);
   };
 
   return (
@@ -54,7 +56,7 @@ function Posts() {
                   onClick={() => {
                     likeClick(datas.id);
                   }}
-                  likeClickData={postID}
+                  likeClickData={postId}
                   source={like}
                 />
 
