@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { AiFillHome, AiFillMessage, AiFillPlusCircle } from "react-icons/ai";
 import Profilepicpopup from "../profile/profilepicpopup";
-import { db, useAuth } from "../../firebase";
+import { useAuth } from "../../firebase";
 import instaText from "../../images/images.png";
-import { collection, getDocs } from "firebase/firestore";
+import {} from "firebase/firestore";
 import NewPostPopup from "../post/NewPostPopup";
 
 function NavLinks() {
   const currentUser = useAuth();
   const [profilePicPopup, setProfilePicPopup] = useState(false);
   const [postPopup, setPostPopup] = useState(false);
-  const userCollectionRef = collection(db, "users");
+  //const userCollectionRef = collection(db, "users");
 
   const handleProfilePopup = () => {
     setProfilePicPopup(!profilePicPopup);

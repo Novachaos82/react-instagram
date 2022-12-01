@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { db, logout, useAuth } from "../firebase";
-import Posts from "../components/post/posts";
-import { collection, getDocs } from "firebase/firestore";
+import React from "react";
+import PostHome from "../components/post/postHome";
+//import Posts from "../components/post/posts";
+//import { useNavigate } from "react-router-dom";
+//import { db, logout, useAuth } from "../firebase";
+
+//import { collection, getDocs } from "firebase/firestore";
 function HomeFeed() {
   return (
     <div>
       homefeed
-      <Posts />
+      <PostHome />
     </div>
   );
 }

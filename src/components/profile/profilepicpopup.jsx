@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { logout, useAuth } from "../../firebase";
 
 function Profilepicpopup({ cancelPopup }) {
   const currentUser = useAuth();
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    setLoading(true);
+    //setLoading(true);
     try {
       await logout();
       navigate("/");
     } catch {
       alert("error");
     }
-    setLoading(false);
+    //setLoading(false);
   };
 
   const handleProfileClick = () => {

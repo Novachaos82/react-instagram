@@ -1,9 +1,10 @@
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import React, { useEffect, useState } from "react";
 //import { v4 } from "uuid";
 import { db, storage, useAuth } from "../../firebase";
 import postPopupImg from "../../images/postPopup.svg";
+import { uuidv4 } from "@firebase/util";
 
 function NewPostPopup({ cancelPopup }) {
   const currentUser = useAuth();
@@ -50,9 +51,12 @@ function NewPostPopup({ cancelPopup }) {
         like: [],
         comment: [],
         imageURL: url,
+        postID: uuidv4(),
+        timestamp: serverTimestamp(),
       });
     };
     addData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
 
   const fileUploader = (e) => {

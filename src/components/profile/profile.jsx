@@ -25,6 +25,7 @@ function Profile() {
 
   useEffect(() => {
     fun1();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(userDetails);
 
