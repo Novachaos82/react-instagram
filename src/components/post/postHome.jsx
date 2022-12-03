@@ -57,6 +57,55 @@ function PostHome() {
     });
   };
 
+  const commentHandler = async (postId, comments) => {
+    let commentObj = {
+      author: currentUser.displayName,
+      comments,
+      photo: currentUser.photoURL,
+    };
+
+    let id;
+    const selectedPost = query(
+      collection(db, "imageDta"),
+      where("postID", "==", postId)
+    );
+
+    const postSnapshot = await getDocs(selectedPost);
+    postSnapshot.forEach((doc) => {
+      id = doc.id;
+    });
+
+    const postReference = doc(db, "imageDta", id);
+
+    await updateDoc(postReference, {
+      comment: arrayUnion(commentObj),
+    });
+  };
+
+  //async function commentHandler(postId, comments) {
+  //  //setDisablePost(true);
+  //  let commentObject = {
+  //    author: currentUser.displayName,
+  //    comments,
+  //    photo: currentUser.photoURL,
+  //  };
+
+  //  let id;
+  //  const selectedPost = query(
+  //    collection(db, "imageDta"),
+  //    where("postID", "==", postId)
+  //  );
+  //  const postSnapshot = await getDocs(selectedPost);
+  //  postSnapshot.forEach((doc) => {
+  //    id = doc.id;
+  //  });
+  //  const postReference = doc(db, "imageDta", id);
+  //  await updateDoc(postReference, {
+  //    comment: arrayUnion(commentObject),
+  //  });
+  //  //setDisablePost(false);
+  //}
+
   useEffect(() => {
     async function getPosts() {
       const allPosts = query(
@@ -88,6 +137,7 @@ function PostHome() {
               postLike={likeHandler}
               postUnlike={unlikeHandler}
               uid={post.uid}
+              commentHandler={commentHandler}
             />
           </div>
         );

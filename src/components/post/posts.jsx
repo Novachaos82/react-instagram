@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useAuth } from "../../firebase";
-import comment from "../../images/comment.svg";
+import Comment from "../../images/comment.svg";
 import like from "../../images/postLike.svg";
 import Unlike from "../../images/postUnlike.svg";
 
@@ -17,13 +17,20 @@ function Posts({
   profileName,
   profilePic,
   uid,
+  commentHandler,
 }) {
+  const [comment, setComment] = useState();
   const currentUser = useAuth();
   //const [postId, setPostID] = useState(null);
 
+  const handleSubmit = () => {
+    console.log(comment);
+    commentHandler(postID, comment);
+  };
+
   return (
     <div className="flex flex-col gap-28">
-      <div className="flex justify-center">
+      <div className="flex justify-center ">
         <div className="w-2/6 flex  flex-col border">
           <Link to={"/profile/" + uid}>
             <div className="flex justify-start gap-10 items-center px-4 py-4">
@@ -33,6 +40,7 @@ function Posts({
           </Link>
 
           <img src={imageURL} alt="" />
+
           <div className="flex p-4 gap-4">
             {!likes.includes(currentUser?.displayName) && (
               <img
@@ -52,12 +60,21 @@ function Posts({
               />
             )}
 
-            <img src={comment} alt="" />
+            <img src={Comment} alt="" />
             <img src={share} alt="" />
+          </div>
+
+          <div className="flex justify-start ml-4 mb-4">
+            {likes.length} likes
+          </div>
+          <div>view all comments</div>
+          <div>
+            <input onChange={(e) => setComment(e.target.value)}></input>
+            <div onClick={handleSubmit}>post</div>
           </div>
         </div>
       </div>
-      );
+      .
     </div>
   );
 }
