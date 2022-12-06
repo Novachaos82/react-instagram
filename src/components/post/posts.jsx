@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 
-import { useAuth } from "../../firebase";
+import { db, useAuth } from "../../firebase";
 import Comment from "../../images/comment.svg";
 import like from "../../images/postLike.svg";
 import Unlike from "../../images/postUnlike.svg";
 
 import share from "../../images/share.svg";
 import { Link } from "react-router-dom";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { useEffect } from "react";
+import Comments from "./Comments";
 
 function Posts({
   postUnlike,
@@ -18,14 +21,21 @@ function Posts({
   profilePic,
   uid,
   commentHandler,
+  comments,
 }) {
   const [comment, setComment] = useState();
+  const [commendData, setCommentData] = useState();
   const currentUser = useAuth();
   //const [postId, setPostID] = useState(null);
 
   const handleSubmit = () => {
     console.log(comment);
     commentHandler(postID, comment);
+
+    comments.map((comm) => {
+      console.log(comm.author);
+      console.log(comm.comments);
+    });
   };
 
   return (
@@ -67,11 +77,15 @@ function Posts({
           <div className="flex justify-start ml-4 mb-4">
             {likes.length} likes
           </div>
+          {/*<Link to="/comments">*/}
           <div>view all comments</div>
+          {/*</Link>*/}
           <div>
             <input onChange={(e) => setComment(e.target.value)}></input>
             <div onClick={handleSubmit}>post</div>
           </div>
+
+          <Comments comments={comments} />
         </div>
       </div>
       .
