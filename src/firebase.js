@@ -56,10 +56,12 @@ export const signInWithGoogle = async () => {
     if (docs.docs.length === 0) {
       await addDoc(collection(db, "users"), {
         uid: user.uid,
-        name: user.displayName,
+        name: user.displayName.toLowerCase(),
         pic: user.photoURL,
         authProvider: "google",
         email: user.email,
+        followers: [],
+        following: [],
       });
     }
   } catch (err) {

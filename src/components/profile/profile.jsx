@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../../firebase";
+import GetPostOfTheProfile from "./GetPostOfTheProfile";
 
 function Profile() {
   const { username } = useParams();
@@ -26,7 +27,7 @@ function Profile() {
   useEffect(() => {
     fun1();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [username]);
   console.log(userDetails);
 
   return (
@@ -40,6 +41,7 @@ function Profile() {
 
         <div>{userDetails?.displayName}</div>
       </div>
+      <GetPostOfTheProfile id={username} />
     </div>
   );
 }

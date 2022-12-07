@@ -7,6 +7,8 @@ import { useAuth } from "../../firebase";
 import instaText from "../../images/images.png";
 import {} from "firebase/firestore";
 import NewPostPopup from "../post/NewPostPopup";
+import Searchbar from "./Searchbar";
+import { useEffect } from "react";
 
 function NavLinks() {
   const currentUser = useAuth();
@@ -20,7 +22,12 @@ function NavLinks() {
 
   const handlePostPopup = () => {
     setPostPopup(!postPopup);
+    document.body.style.overflow = "hidden";
   };
+
+  useEffect(() => {
+    if (!postPopup) document.body.style.overflow = "unset";
+  }, [postPopup]);
 
   //useEffect(() => {
   //  const getUsers = async () => {
@@ -33,15 +40,12 @@ function NavLinks() {
   //}, [userCollectionRef]);
 
   return (
-    <div className=" flex  flex-row justify-center items-center mt-2">
+    <div className=" flex  flex-row justify-center items-center  sticky top-0 w-[100%] bg-white p-2 shadow-md">
       <div className="text-center flex justify-center items-center gap-5 flex-row">
         <Link to="/home">
           <img src={instaText} alt="instatext" className="w-[100px]" />
         </Link>
-        <input
-          placeholder="search"
-          className="outline outline-1 outline-gray-500 px-2 py-1 rounded-md"
-        ></input>
+        <Searchbar />
         <Link to="/home">
           <AiFillHome size={28} />
         </Link>

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-import { db, useAuth } from "../../firebase";
+import { useAuth } from "../../firebase";
 import Comment from "../../images/comment.svg";
 import like from "../../images/postLike.svg";
 import Unlike from "../../images/postUnlike.svg";
 
 import share from "../../images/share.svg";
 import { Link } from "react-router-dom";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+//import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect } from "react";
 import Comments from "./Comments";
 import CommentHandlng from "./CommentHandlng";
@@ -25,7 +25,7 @@ function Posts({
   comments,
 }) {
   const [comment, setComment] = useState();
-  const [commendData, setCommentData] = useState();
+  //const [commendData, setCommentData] = useState();
   const currentUser = useAuth();
   const [commentPopupShown, setCommentPopupShown] = useState(false);
   //const [postId, setPostID] = useState(null);
@@ -33,19 +33,18 @@ function Posts({
   const handleSubmit = () => {
     console.log(comment);
     commentHandler(postID, comment);
-
-    comments.map((comm) => {
-      console.log(comm.author);
-      console.log(comm.comments);
-    });
   };
 
   const commentPopupHandler = () => {
     setCommentPopupShown(!commentPopupShown);
+    document.body.style.overflow = "hidden";
   };
 
+  useEffect(() => {
+    if (!commentPopupShown) document.body.style.overflow = "unset";
+  }, [commentPopupShown]);
   return (
-    <div className="flex flex-col gap-28">
+    <div className="flex flex-col gap-28 py-8">
       <div className="flex justify-center ">
         <div className="w-2/6 flex  flex-col border bg-[#ffffff]">
           <Link to={"/profile/" + uid}>
