@@ -4,7 +4,7 @@ import PostHome from "../components/post/postHome";
 
 function HomeFeed() {
   return (
-    <div>
+    <div className="bg-[#fafafa]">
       homefeed
       <PostHome />
     </div>

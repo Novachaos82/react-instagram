@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect } from "react";
 import Comments from "./Comments";
+import CommentHandlng from "./CommentHandlng";
 
 function Posts({
   postUnlike,
@@ -26,6 +27,7 @@ function Posts({
   const [comment, setComment] = useState();
   const [commendData, setCommentData] = useState();
   const currentUser = useAuth();
+  const [commentPopupShown, setCommentPopupShown] = useState(false);
   //const [postId, setPostID] = useState(null);
 
   const handleSubmit = () => {
@@ -38,10 +40,14 @@ function Posts({
     });
   };
 
+  const commentPopupHandler = () => {
+    setCommentPopupShown(!commentPopupShown);
+  };
+
   return (
     <div className="flex flex-col gap-28">
       <div className="flex justify-center ">
-        <div className="w-2/6 flex  flex-col border">
+        <div className="w-2/6 flex  flex-col border bg-[#ffffff]">
           <Link to={"/profile/" + uid}>
             <div className="flex justify-start gap-10 items-center px-4 py-4">
               <img className="w-8 h-8 rounded-full" src={profilePic} alt="" />
@@ -54,7 +60,7 @@ function Posts({
           <div className="flex p-4 gap-4">
             {!likes.includes(currentUser?.displayName) && (
               <img
-                className="h-6 w-6 flex justify-center"
+                className="h-6 w-6 flex justify-center cursor-pointer"
                 src={like}
                 alt="love-outline"
                 onClick={() => postLike(postID)}
@@ -63,14 +69,19 @@ function Posts({
 
             {likes.includes(currentUser?.displayName) && (
               <img
-                className="h-6 w-6 flex justify-center"
+                className="h-6 w-6 flex justify-center cursor-pointer"
                 src={Unlike}
                 alt="love-outline"
                 onClick={() => postUnlike(postID)}
               />
             )}
 
-            <img src={Comment} alt="" />
+            <img
+              onClick={commentPopupHandler}
+              src={Comment}
+              alt=""
+              className="cursor-pointer"
+            />
             <img src={share} alt="" />
           </div>
 
@@ -78,14 +89,34 @@ function Posts({
             {likes.length} likes
           </div>
           {/*<Link to="/comments">*/}
-          <div>view all comments</div>
-          {/*</Link>*/}
-          <div>
-            <input onChange={(e) => setComment(e.target.value)}></input>
-            <div onClick={handleSubmit}>post</div>
+          <div onClick={commentPopupHandler} className="cursor-pointer">
+            view all comments
           </div>
+          {/*</Link>*/}
 
-          <Comments comments={comments} />
+          <CommentHandlng
+            commentHandler={commentHandler}
+            postID={postID}
+            comments={comments}
+          />
+
+          <Comments
+            commentPopupHandler={commentPopupHandler}
+            className="absolute"
+            commentPopupShown={commentPopupShown}
+            comments={comments}
+            postUnlike={postUnlike}
+            postLike={postLike}
+            postID={postID}
+            likes={likes}
+            imageURL={imageURL}
+            profileName={profileName}
+            profilePic={profilePic}
+            uid={uid}
+            commentHandler={commentHandler}
+            setComment={setComment}
+            handleSubmit={handleSubmit}
+          />
         </div>
       </div>
       .
