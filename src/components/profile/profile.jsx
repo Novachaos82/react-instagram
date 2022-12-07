@@ -31,17 +31,31 @@ function Profile() {
   console.log(userDetails);
 
   return (
-    <div>
-      <div className="flex">
-        <img
-          className="rounded-full"
-          src={userDetails?.displayImage}
-          alt="nothing"
-        />
+    <div className="mt-8 flex justify-center">
+      <div className="w-[935px]  flex flex-col justify-center">
+        <div className="flex  pb-20 border-b border-[#d3d3d3] mb-14">
+          <img
+            className="rounded-full w-[150px] h-[150px] mr-28 ml-28"
+            src={userDetails?.displayImage}
+            alt="nothing"
+          />
 
-        <div>{userDetails?.displayName}</div>
+          <div className="">
+            <div className="flex gap-5 items-center mb-5">
+              <div className="font-semibold text-xl">
+                {userDetails?.displayName}
+              </div>
+              <button className="p-2 border  rounded-md">follow</button>
+            </div>
+            <div className="flex gap-10 text-md capitalize">
+              <div>posts</div>
+              <div>follower</div>
+              <div>following</div>
+            </div>
+          </div>
+        </div>
+        <GetPostOfTheProfile id={username} />
       </div>
-      <GetPostOfTheProfile id={username} />
     </div>
   );
 }

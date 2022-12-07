@@ -14,7 +14,7 @@ function GetPostOfTheProfile({ id }) {
     const letPost = [];
     posts.forEach((doc) => {
       letPost.push(doc.data());
-      console.log(letPost);
+      //  console.log(letPost);
     });
     setPost(letPost);
   };
@@ -24,11 +24,25 @@ function GetPostOfTheProfile({ id }) {
     //post.map((doc) => {
     //  console.log(doc);
     //});
-    console.log(post);
   }, []);
+  post.map((doc) => {
+    console.log(doc.imageURL);
+  });
   return (
     <div>
-      <div>some</div>
+      <div className="flex  flex-wrap gap-7">
+        {post.map((images) => {
+          return (
+            <div>
+              <img
+                className="h-[293px] w-[293px] object-cover"
+                src={images.imageURL}
+                alt={images.imageURL}
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
