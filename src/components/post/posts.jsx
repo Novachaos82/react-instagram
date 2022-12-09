@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import Comments from "./Comments";
 import CommentHandlng from "./CommentHandlng";
+//import GetPostOfTheProfile from "../profile/GetPostOfTheProfile";
 
 function Posts({
   postUnlike,
@@ -116,6 +117,23 @@ function Posts({
             setComment={setComment}
             handleSubmit={handleSubmit}
           />
+          {/*<GetPostOfTheProfile
+            commentPopupHandler={commentPopupHandler}
+            className="absolute"
+            commentPopupShown={commentPopupShown}
+            comments={comments}
+            postUnlike={postUnlike}
+            postLike={postLike}
+            postID={postID}
+            likes={likes}
+            imageURL={imageURL}
+            profileName={profileName}
+            profilePic={profilePic}
+            uid={uid}
+            commentHandler={commentHandler}
+            setComment={setComment}
+            handleSubmit={handleSubmit}
+          />*/}
         </div>
       </div>
       .

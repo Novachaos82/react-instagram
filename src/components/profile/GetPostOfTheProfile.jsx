@@ -1,12 +1,14 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import React from "react";
+import { useCallback } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { db } from "../../firebase";
 
 function GetPostOfTheProfile({ id }) {
   const [post, setPost] = useState([]);
-  const fetchPosts = async () => {
+
+  const fetchPosts = useCallback(async () => {
     const postRef = collection(db, "imageDta");
     const q = query(postRef, where("uid", "==", id));
 
@@ -17,23 +19,24 @@ function GetPostOfTheProfile({ id }) {
       //  console.log(letPost);
     });
     setPost(letPost);
-  };
+  }, [id]);
+  //const fetchPosts = async () => {
+
+  //};
 
   useEffect(() => {
     fetchPosts();
     //post.map((doc) => {
     //  console.log(doc);
     //});
-  }, []);
-  post.map((doc) => {
-    console.log(doc.imageURL);
-  });
+  }, [fetchPosts]);
+  console.log(post.length);
   return (
     <div>
       <div className="flex  flex-wrap gap-7">
-        {post.map((images) => {
+        {post.map((images, index) => {
           return (
-            <div>
+            <div key={index}>
               <img
                 className="h-[293px] w-[293px] object-cover"
                 src={images.imageURL}
