@@ -9,8 +9,9 @@ import share from "../../images/share.svg";
 import { Link } from "react-router-dom";
 //import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useEffect } from "react";
-import Comments from "./Comments";
+import Comments from "./PostPopup";
 import CommentHandlng from "./CommentHandlng";
+import PostPopup from "./PostPopup";
 //import GetPostOfTheProfile from "../profile/GetPostOfTheProfile";
 
 function Posts({
@@ -100,7 +101,7 @@ function Posts({
             comments={comments}
           />
 
-          <Comments
+          <PostPopup
             commentPopupHandler={commentPopupHandler}
             className="absolute"
             commentPopupShown={commentPopupShown}

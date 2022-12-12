@@ -1,24 +1,29 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React from "react";
 import { useCallback } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { db } from "../../firebase";
+import PostInProfile from "./PostInProfile";
 
 function GetPostOfTheProfile({ id, onUpdate }) {
   const [post, setPost] = useState([]);
 
   const fetchPosts = useCallback(async () => {
     const postRef = collection(db, "imageDta");
-    const q = query(postRef, where("uid", "==", id));
 
-    const posts = await getDocs(q);
-    const letPost = [];
-    posts.forEach((doc) => {
-      letPost.push(doc.data());
-      //  console.log(letPost);
+    const allPosts = query(
+      postRef,
+
+      where("uid", "==", id)
+    );
+    onSnapshot(allPosts, (documents) => {
+      const postDocs = [];
+      documents.forEach((doc) => {
+        postDocs.push(doc.data());
+        setPost(postDocs);
+      });
     });
-    setPost(letPost);
   }, [id]);
   //const fetchPosts = async () => {
 
@@ -35,18 +40,22 @@ function GetPostOfTheProfile({ id, onUpdate }) {
     // Fetch the posts for the user with the given username
     // When the posts are fetched, call the onUpdate prop with the number of posts
     onUpdate(post.length);
-  }, [post.length]);
+  }, [post.length, onUpdate]);
 
   return (
     <div>
       <div className="flex  flex-wrap gap-7">
-        {post.map((images, index) => {
+        {post?.map((post) => {
           return (
-            <div key={index}>
-              <img
-                className="h-[293px] w-[293px] object-cover"
-                src={images.imageURL}
-                alt={images.imageURL}
+            <div key={post.postID}>
+              <PostInProfile
+                profilePic={post.displayImage}
+                profileName={post.displayName}
+                imageURL={post.imageURL}
+                likes={post.like}
+                postID={post.postID}
+                uid={post.uid}
+                comments={post.comment}
               />
             </div>
           );

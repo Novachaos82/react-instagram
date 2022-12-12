@@ -1,12 +1,22 @@
+import {
+  arrayRemove,
+  arrayUnion,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../firebase";
+import { db, useAuth } from "../../firebase";
 
 import like from "../../images/postLike.svg";
 import Unlike from "../../images/postUnlike.svg";
 import CommentHandlng from "./CommentHandlng";
 
-function Comments({
+function PostPopup({
   comments,
   commentPopupShown,
   commentPopupHandler,
@@ -18,13 +28,75 @@ function Comments({
   profileName,
   profilePic,
   uid,
-  commentHandler,
+
   setComment,
   handleSubmit,
 }) {
   const currentUser = useAuth();
+
+  const likeHandler = async (postID) => {
+    console.log("wrks");
+    let id;
+    const selectedPost = query(
+      collection(db, "imageDta"),
+      where("postID", "==", postID)
+    );
+
+    const postSnapshot = await getDocs(selectedPost);
+    postSnapshot.forEach((doc) => {
+      id = doc.id;
+    });
+
+    const postReference = doc(db, "imageDta", id);
+    await updateDoc(postReference, {
+      like: arrayUnion(currentUser?.displayName),
+    });
+  };
+
+  const unlikeHandler = async (postID) => {
+    let id;
+    const selectedPost = query(
+      collection(db, "imageDta"),
+      where("postID", "==", postID)
+    );
+
+    const postSnapshot = await getDocs(selectedPost);
+    postSnapshot.forEach((doc) => {
+      id = doc.id;
+    });
+
+    const postReference = doc(db, "imageDta", id);
+    await updateDoc(postReference, {
+      like: arrayRemove(currentUser?.displayName),
+    });
+  };
+
+  const commentHandler = async (postId, comments) => {
+    let commentObj = {
+      author: currentUser.displayName,
+      comments,
+      photo: currentUser.photoURL,
+    };
+
+    let id;
+    const selectedPost = query(
+      collection(db, "imageDta"),
+      where("postID", "==", postId)
+    );
+
+    const postSnapshot = await getDocs(selectedPost);
+    postSnapshot.forEach((doc) => {
+      id = doc.id;
+    });
+
+    const postReference = doc(db, "imageDta", id);
+
+    await updateDoc(postReference, {
+      comment: arrayUnion(commentObj),
+    });
+  };
   return (
-    <div>
+    <div key={postID}>
       {commentPopupShown ? (
         <div
           className="fixed top-0 left-0 w-screen h-screen bg-[#595959]"
@@ -79,7 +151,7 @@ function Comments({
                           className="h-6 w-6 flex justify-center"
                           src={like}
                           alt="love-outline"
-                          onClick={() => postLike(postID)}
+                          onClick={() => likeHandler(postID)}
                         />
                       )}
                       {likes.includes(currentUser?.displayName) && (
@@ -87,7 +159,7 @@ function Comments({
                           className="h-6 w-6 flex justify-center"
                           src={Unlike}
                           alt="love-outline"
-                          onClick={() => postUnlike(postID)}
+                          onClick={() => unlikeHandler(postID)}
                         />
                       )}
                     </div>
@@ -110,4 +182,4 @@ function Comments({
   );
 }
 
-export default Comments;
+export default PostPopup;
