@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { db } from "../../firebase";
 
-function GetPostOfTheProfile({ id }) {
+function GetPostOfTheProfile({ id, onUpdate }) {
   const [post, setPost] = useState([]);
 
   const fetchPosts = useCallback(async () => {
@@ -30,7 +30,13 @@ function GetPostOfTheProfile({ id }) {
     //  console.log(doc);
     //});
   }, [fetchPosts]);
-  console.log(post.length);
+
+  useEffect(() => {
+    // Fetch the posts for the user with the given username
+    // When the posts are fetched, call the onUpdate prop with the number of posts
+    onUpdate(post.length);
+  }, [post.length]);
+
   return (
     <div>
       <div className="flex  flex-wrap gap-7">

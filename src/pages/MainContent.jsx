@@ -10,17 +10,13 @@ import HomeFeed from "./HomeFeed";
 import LoginPage from "./LoginPage";
 
 function MainContent() {
-  const currentUser = useAuth();
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<HomeFeed />} />
         <Route path="/inbox" element={<Inbox />} />
-        <Route
-          path="/profile/:username"
-          element={<Profile currentUser={currentUser} />}
-        />
+        <Route path="/profile/:username" element={<Profile />} />
         <Route path="/comments" element={<Comments />} />
       </Routes>
     </div>

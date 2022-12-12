@@ -1,7 +1,9 @@
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
   arrayUnion,
   collection,
   getDocs,
+  onSnapshot,
   query,
   updateDoc,
   where,
@@ -11,24 +13,40 @@ import { useState } from "react";
 import { useCallback } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { db, useAuth } from "../../firebase";
+import { auth, db, useAuth } from "../../firebase";
+import { follow, unfollow } from "../utils/follow";
 import GetPostOfTheProfile from "./GetPostOfTheProfile";
 
-function Profile({ currentUser }) {
+function Profile() {
   const { username } = useParams();
   const [userDetails, setUserDetails] = useState(null);
-  const [follow, setFollow] = useState(false);
-  const [userProfile, setUserProfile] = useState([]);
-  const [meProfile, setMeProfile] = useState([]);
-  //const currentUser = useAuth();
+  const [following, setFollowing] = useState(false);
+  const [userProfile, setUserProfile] = useState();
+  const [meProfile, setMeProfile] = useState();
+  const [meId, setMeId] = useState();
+  const [userId, setUserId] = useState();
+  const [postCount, setPostCount] = useState();
 
-  //const documentCollection = collection(db, "users").where(
-  //  "uid",
-  //  "==",
-  //  username
-  //);
+  //const [currentUser, setCurrentUser] = useState();
+  const auth = getAuth();
 
-  //console.log(currentUser?.uid);
+  const currentUser = auth.currentUser;
+  //console.log(currentUser.uid);
+
+  //useEffect(() => {
+  //  const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //    setCurrentUser(user);
+  //  });
+
+  //  return () => {
+  //    unsubscribe();
+  //  };
+  //}, []);
+  const updatePostCount = useCallback((newPostCount) => {
+    // Update the state with the new post count
+    setPostCount(newPostCount);
+  }, []);
+
   const fun1 = async () => {
     const q = query(collection(db, "imageDta"), where("uid", "==", username));
 
@@ -42,49 +60,64 @@ function Profile({ currentUser }) {
     fun1();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
-  //console.log(userDetails);
-
-  const followHandler = () => {
-    setFollow(!follow);
-  };
-
-  //console.log(follow);
 
   const fetchBothUserData = async () => {
     const userReference = collection(db, "users");
     const qForUser = query(userReference, where("uid", "==", username));
-    const qForMe = query(userReference, where("uid", "==", currentUser?.uid));
+    const qForMe = query(userReference, where("uid", "==", currentUser.uid));
 
-    const getUserDocs = await getDocs(qForUser);
+    //const getUserDocs = await getDocs(qForUser);
 
-    getUserDocs.forEach((doc) => {
-      setUserProfile(doc.data());
+    //getUserDocs.forEach((doc) => {
+
+    //});
+    onSnapshot(qForUser, (document) => {
+      document.forEach((doc) => {
+        setUserProfile(doc.data());
+        setUserId(doc.id);
+      });
+      //console.log(doc.data());
     });
-    //const docs
 
-    const getMeDocs = await getDocs(qForMe);
-    getMeDocs.forEach((doc) => {
-      setMeProfile(doc.data());
+    //const getMeDocs = await getDocs(qForMe);
+    onSnapshot(qForMe, (document) => {
+      document.forEach((doc) => {
+        setMeProfile(doc.data());
+        setMeId(doc.id);
+      });
     });
   };
-  const followingHandler = useCallback(() => {
-    //if (!meProfile?.following.includes(userProfile.uid)) {
-    //  followHandler();
-    //}
-    console.log(meProfile?.following.includes(meProfile.uid));
-    //console.log(meProfile.uid)
-    //await updateDoc(qForCurrentUser,{following:arrayUnion})
-    //if(meProfile.following.includes(userProfile.uid))
-    //{
-    //  unfollowHandler();
-    //}
-  }, [userProfile, meProfile]);
+  console.log(meId);
+  console.log(userId);
+  const followingChecker = () => {
+    if (meProfile?.following.includes(userId)) {
+      console.log("yes following");
+      //setFollowing(true);
+    }
+    if (!meProfile?.following.includes(userId)) {
+      console.log("not following");
+      //setFollowing(false);
+    }
+  };
+  const followingHandler = async () => {
+    if (!meProfile?.following.includes(userId)) {
+      follow(meId, userId);
+    }
 
-  //console.log(userProfile.uid);
-  //console.log(meProfile);
+    if (meProfile?.following.includes(userId)) {
+      unfollow(meId, userId);
+    }
+  };
+
+  useEffect(() => {
+    followingChecker();
+  }, []);
+
   useEffect(() => {
     fetchBothUserData();
-  }, []);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
 
   return (
     <div className="mt-8 flex justify-center">
@@ -105,17 +138,23 @@ function Profile({ currentUser }) {
                 onClick={followingHandler}
                 className="p-2 border  rounded-md"
               >
-                {!follow ? <div>follow</div> : <div>unfollow</div>}
+                <div>
+                  {meProfile?.following.includes(userId) ? (
+                    <button onClick={followingHandler}>Unfollow</button>
+                  ) : (
+                    <button onClick={followingHandler}>Follow</button>
+                  )}
+                </div>
               </button>
             </div>
             <div className="flex gap-10 text-md capitalize">
-              <div>posts</div>
-              <div>follower</div>
-              <div>following</div>
+              <div>{postCount}posts</div>
+              <div>{userProfile?.followers.length}follower</div>
+              <div>{userProfile?.following.length}following</div>
             </div>
           </div>
         </div>
-        <GetPostOfTheProfile id={username} />
+        <GetPostOfTheProfile id={username} onUpdate={updatePostCount} />
       </div>
     </div>
   );
