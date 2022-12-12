@@ -87,8 +87,7 @@ function Profile() {
       });
     });
   };
-  console.log(meId);
-  console.log(userId);
+  console.log(userProfile);
   const followingChecker = () => {
     if (meProfile?.following.includes(userId)) {
       console.log("yes following");
@@ -117,7 +116,7 @@ function Profile() {
     fetchBothUserData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser]);
+  }, [username]);
 
   return (
     <div className="mt-8 flex justify-center">
