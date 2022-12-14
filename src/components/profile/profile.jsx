@@ -17,7 +17,9 @@ import GetPostOfTheProfile from "./GetPostOfTheProfile";
 
 function Profile() {
   const auth = getAuth();
+
   const { username } = useParams();
+
   const [userDetails, setUserDetails] = useState(null);
   //const [following, setFollowing] = useState(false);
   const [userProfile, setUserProfile] = useState();
@@ -25,6 +27,9 @@ function Profile() {
   const [meId, setMeId] = useState();
   const [userId, setUserId] = useState();
   const [postCount, setPostCount] = useState();
+  const [isEditing, setIsEditing] = useState(false);
+  const userIsMe = meId === userId;
+  console.log(userIsMe + "ok");
   const userDisplayImage = userDetails?.displayImage;
   //const [currentUser, setCurrentUser] = useState();
 
@@ -104,6 +109,11 @@ function Profile() {
     setPostCount(newPostCount);
   }, []);
 
+  const nothingHandler = () => {
+    setIsEditing(true);
+    console.log("nothing");
+  };
+
   return (
     <div className="mt-8 flex justify-center">
       <div className="w-[935px]  flex flex-col justify-center">
@@ -120,18 +130,29 @@ function Profile() {
                 {userDetails?.displayName}
               </div>
               <div>
-                <button
-                  onClick={followingHandler}
-                  className="p-2 border  rounded-md"
-                >
-                  <div>
-                    {meProfile?.following.includes(userId) ? (
-                      <button onClick={followingHandler}>Unfollow</button>
-                    ) : (
-                      <button onClick={followingHandler}>Follow</button>
-                    )}
-                  </div>
-                </button>
+                <div>
+                  {userIsMe ? (
+                    <button onClick={nothingHandler}>edit</button>
+                  ) : meProfile?.following.includes(userId) && !userIsMe ? (
+                    <button disabled={userIsMe} onClick={followingHandler}>
+                      Unfollow
+                    </button>
+                  ) : (
+                    <button disabled={userIsMe} onClick={followingHandler}>
+                      Follow
+                    </button>
+                  )}
+
+                  {/*{meProfile?.following.includes(userId) && !userIsMe ? (
+                    <button disabled={userIsMe} onClick={followingHandler}>
+                      Unfollow
+                    </button>
+                  ) : (
+                    <button disabled={userIsMe} onClick={followingHandler}>
+                      Follow
+                    </button>
+                  )}*/}
+                </div>
               </div>
             </div>
             <div className="flex gap-10 text-md capitalize">
