@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { AiFillHome, AiFillMessage, AiFillPlusCircle } from "react-icons/ai";
+import { MdOutlineNotifications } from "react-icons/md";
 import Profilepicpopup from "../profile/profilepicpopup";
 import { useAuth } from "../../firebase";
 import instaText from "../../images/images.png";
@@ -9,11 +10,13 @@ import {} from "firebase/firestore";
 import NewPostPopup from "../post/NewPostPopup";
 import Searchbar from "./Searchbar";
 import { useEffect } from "react";
+import ActivityFeed from "./activityFeed";
 
 function NavLinks() {
   const currentUser = useAuth();
   const [profilePicPopup, setProfilePicPopup] = useState(false);
   const [postPopup, setPostPopup] = useState(false);
+  const [activityPopup, setActivityPopup] = useState(false);
   //const userCollectionRef = collection(db, "users");
 
   const handleProfilePopup = () => {
@@ -23,6 +26,10 @@ function NavLinks() {
   const handlePostPopup = () => {
     setPostPopup(!postPopup);
     document.body.style.overflow = "hidden";
+  };
+
+  const handleActivityPopup = () => {
+    setActivityPopup(!activityPopup);
   };
 
   useEffect(() => {
@@ -73,6 +80,12 @@ function NavLinks() {
             <Profilepicpopup cancelPopup={() => setProfilePicPopup(false)} />
           ) : null}
         </div>
+        <div onClick={handleActivityPopup}>
+          <MdOutlineNotifications size={28} />
+        </div>
+        {activityPopup ? (
+          <ActivityFeed cancelPopup={() => setActivityPopup(false)} />
+        ) : null}
       </div>
     </div>
   );

@@ -63,6 +63,7 @@ export const signInWithGoogle = async () => {
         email: user.email,
         followers: [],
         following: [],
+        activityFeed: [],
       });
     }
   } catch (err) {

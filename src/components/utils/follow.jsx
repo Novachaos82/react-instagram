@@ -10,6 +10,9 @@ async function follow(meUsername, username) {
   await updateDoc(userRef, {
     followers: arrayUnion(meUsername),
   });
+  await updateDoc(userRef, {
+    activityFeed: arrayUnion({ category: "follow", username: meUsername }),
+  });
 }
 
 async function unfollow(meUsername, username) {
@@ -20,6 +23,9 @@ async function unfollow(meUsername, username) {
   });
   await updateDoc(userRef, {
     followers: arrayRemove(meUsername),
+  });
+  await updateDoc(userRef, {
+    activityFeed: arrayRemove({ category: "follow", username: meUsername }),
   });
 }
 

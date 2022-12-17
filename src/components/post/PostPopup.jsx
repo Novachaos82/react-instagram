@@ -1,3 +1,4 @@
+import { getAuth } from "firebase/auth";
 import {
   arrayRemove,
   arrayUnion,
@@ -9,8 +10,9 @@ import {
   where,
 } from "firebase/firestore";
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { db, useAuth } from "../../firebase";
+import { db } from "../../firebase";
 
 import like from "../../images/postLike.svg";
 import Unlike from "../../images/postUnlike.svg";
@@ -32,7 +34,9 @@ function PostPopup({
   setComment,
   handleSubmit,
 }) {
-  const currentUser = useAuth();
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+  const [userID, setUserID] = useState();
 
   const likeHandler = async (postID) => {
     console.log("wrks");
@@ -51,6 +55,29 @@ function PostPopup({
     await updateDoc(postReference, {
       like: arrayUnion(currentUser?.displayName),
     });
+    console.log(uid);
+
+    if (currentUser.uid !== uid) {
+      const postUser = collection(db, "users");
+
+      const userQ = query(postUser, where("uid", "==", uid));
+
+      const getUser = await getDocs(userQ);
+
+      getUser.forEach((doc) => {
+        setUserID(doc.id);
+      });
+      console.log(userID);
+      const userReference = doc(db, "users", userID);
+      console.log(userReference);
+      await updateDoc(userReference, {
+        activityFeed: arrayUnion({
+          category: "like",
+          postID: postID,
+          username: currentUser?.displayName,
+        }),
+      });
+    }
   };
 
   const unlikeHandler = async (postID) => {
@@ -69,6 +96,19 @@ function PostPopup({
     await updateDoc(postReference, {
       like: arrayRemove(currentUser?.displayName),
     });
+
+    if (currentUser.uid !== uid) {
+      console.log(userID);
+      const userReference = doc(db, "users", userID);
+      console.log(userReference);
+      await updateDoc(userReference, {
+        activityFeed: arrayRemove({
+          category: "like",
+          postID: postID,
+          username: currentUser?.displayName,
+        }),
+      });
+    }
   };
 
   const commentHandler = async (postId, comments) => {
@@ -94,6 +134,20 @@ function PostPopup({
     await updateDoc(postReference, {
       comment: arrayUnion(commentObj),
     });
+
+    if (currentUser.uid !== uid) {
+      console.log(userID);
+      const userReference = doc(db, "users", userID);
+      console.log(userReference);
+      await updateDoc(userReference, {
+        activityFeed: arrayUnion({
+          category: "comment",
+          postID: postID,
+          username: currentUser?.displayName,
+          comment: comments,
+        }),
+      });
+    }
   };
   return (
     <div key={postID}>
