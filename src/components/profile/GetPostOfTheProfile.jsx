@@ -56,6 +56,7 @@ function GetPostOfTheProfile({ id, onUpdate }) {
                 postID={post.postID}
                 uid={post.uid}
                 comments={post.comment}
+                timestamp={post.timestamp}
               />
             </div>
           );

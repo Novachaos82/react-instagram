@@ -11,6 +11,7 @@ function PostInProfile({
   postID,
   uid,
   comments,
+  timestamp,
 }) {
   const [commentPopupShown, setCommentPopupShown] = useState(false);
 
@@ -47,6 +48,7 @@ function PostInProfile({
         profileName={profileName}
         profilePic={profilePic}
         uid={uid}
+        timestamp={timestamp}
       />
     </div>
   );

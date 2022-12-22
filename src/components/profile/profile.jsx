@@ -137,11 +137,19 @@ function Profile() {
                   {userIsMe ? (
                     <button>edit</button>
                   ) : meProfile?.following.includes(userId) && !userIsMe ? (
-                    <button disabled={userIsMe} onClick={followingHandler}>
+                    <button
+                      className="unfollow"
+                      disabled={userIsMe}
+                      onClick={followingHandler}
+                    >
                       Unfollow
                     </button>
                   ) : (
-                    <button disabled={userIsMe} onClick={followingHandler}>
+                    <button
+                      className="follow"
+                      disabled={userIsMe}
+                      onClick={followingHandler}
+                    >
                       Follow
                     </button>
                   )}

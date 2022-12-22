@@ -8,3 +8,11 @@
 .inputs {
   @apply outline outline-1 px-4 py-1 outline-gray-400;
 }
+
+.follow {
+  @apply bg-blue-500 text-white p-2 rounded-lg w-[100px] border border-blue-500;
+}
+
+.unfollow {
+  @apply border border-[#ccc] text-black p-2 rounded-lg w-[100px];
+}

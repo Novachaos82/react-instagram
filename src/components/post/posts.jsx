@@ -105,7 +105,7 @@ function Posts({
             {/*</Link>*/}
 
             <div className="font-extralight text-gray-500 text-xs px-5">
-              {timestamp.toDate().toDateString()}
+              {timestamp?.toDate().toDateString()}
             </div>
             <CommentHandlng
               commentHandler={commentHandler}

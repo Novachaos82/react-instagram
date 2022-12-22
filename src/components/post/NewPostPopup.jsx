@@ -6,9 +6,12 @@ import { db, storage, useAuth } from "../../firebase";
 import postPopupImg from "../../images/postPopup.svg";
 import { uuidv4 } from "@firebase/util";
 
+import DotLoader from "react-spinners/DotLoader";
+
 function NewPostPopup({ cancelPopup }) {
   const currentUser = useAuth();
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   //const [imageList, setImageList] = useState([]);
   const [url, setUrl] = useState(null);
   //const imageListRef = ref(storage, `images/${currentUser?.email}/`);
@@ -23,12 +26,13 @@ function NewPostPopup({ cancelPopup }) {
     //  storage,
     //  `images/${currentUser.email}/${image.name}`
     //).put(image);
+    setLoading(true);
     uploadBytes(imageRef, image).then(() => {
-      alert("image uplaoded");
       getDownloadURL(imageRef).then((urlll) => {
         setUrl(urlll);
       });
       setImage(null);
+      setLoading(false);
     });
 
     //console.log(url + ">>>>>url");
@@ -92,6 +96,10 @@ function NewPostPopup({ cancelPopup }) {
           <button className="loginButton" onClick={handleImageUpload}>
             New Post
           </button>
+          <div className="flex items-center flex-col">
+            <DotLoader loading={loading} color="black" />
+            {loading ? "wait while uploading" : ""}
+          </div>
         </div>
       </div>
     </div>

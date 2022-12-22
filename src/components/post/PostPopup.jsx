@@ -158,12 +158,12 @@ function PostPopup({
           onClick={commentPopupHandler}
         >
           <div
-            className="fixed w-5/6 h-5/6 left-[calc(20vw-200px)]  top-[57px] bg-white "
+            className="fixed w-5/6 h-5/6 left-[calc(20vw-200px)]  top-[57px] bg-white rounded-xl"
             onClick={(e) => {
               e.stopPropagation();
             }}
           >
-            <div className="absolute w-[100%] h-[100%] rounded-sm bg-[#fff]  flex overflow-hidden flex-row">
+            <div className="absolute w-[100%] h-[100%]  bg-[#fff]  flex overflow-hidden flex-row rounded-xl">
               <img
                 src={imageURL}
                 alt=""
@@ -221,7 +221,7 @@ function PostPopup({
                     <div className="font-semibold">{likes.length} likes</div>
                   </div>
                   <div className="font-extralight text-gray-500 text-xs px-5 text-left">
-                    {timestamp.toDate().toDateString()}
+                    {timestamp?.toDate().toDateString()}
                   </div>
                   <CommentHandlng
                     commentHandler={commentHandler}
