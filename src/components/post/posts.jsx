@@ -8,10 +8,11 @@ import Unlike from "../../images/postUnlike.svg";
 import share from "../../images/share.svg";
 import { Link } from "react-router-dom";
 //import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import { useEffect } from "react";
-import Comments from "./PostPopup";
+
+//import Comments from "./PostPopup";
 import CommentHandlng from "./CommentHandlng";
 import PostPopup from "./PostPopup";
+import { useEffect } from "react";
 //import GetPostOfTheProfile from "../profile/GetPostOfTheProfile";
 
 function Posts({
@@ -25,6 +26,7 @@ function Posts({
   uid,
   commentHandler,
   comments,
+  timestamp,
 }) {
   const [comment, setComment] = useState();
   //const [commendData, setCommentData] = useState();
@@ -43,8 +45,11 @@ function Posts({
   };
 
   useEffect(() => {
-    if (!commentPopupShown) document.body.style.overflow = "unset";
+    if (!commentPopupShown) {
+      document.body.style.overflow = "unset";
+    }
   }, [commentPopupShown]);
+
   return (
     <div className="flex flex-col gap-28 py-8">
       <div className="flex justify-center ">
@@ -86,20 +91,28 @@ function Posts({
             <img src={share} alt="" />
           </div>
 
-          <div className="flex justify-start ml-4 mb-4">
+          <div className="flex justify-start px-5 py-2 font-bold text-sm">
             {likes.length} likes
           </div>
           {/*<Link to="/comments">*/}
-          <div onClick={commentPopupHandler} className="cursor-pointer">
-            view all comments
-          </div>
-          {/*</Link>*/}
+          <div className="flex flex-col items-start ">
+            <div
+              onClick={commentPopupHandler}
+              className="cursor-pointer text-gray-600 tracking-wide font-semibold text-[14px] capitalize px-5 mb-2"
+            >
+              view all comments
+            </div>
+            {/*</Link>*/}
 
-          <CommentHandlng
-            commentHandler={commentHandler}
-            postID={postID}
-            comments={comments}
-          />
+            <div className="font-extralight text-gray-500 text-xs px-5">
+              {timestamp.toDate().toDateString()}
+            </div>
+            <CommentHandlng
+              commentHandler={commentHandler}
+              postID={postID}
+              comments={comments}
+            />
+          </div>
 
           <PostPopup
             commentPopupHandler={commentPopupHandler}
@@ -117,6 +130,7 @@ function Posts({
             commentHandler={commentHandler}
             setComment={setComment}
             handleSubmit={handleSubmit}
+            timestamp={timestamp}
           />
           {/*<GetPostOfTheProfile
             commentPopupHandler={commentPopupHandler}
@@ -137,7 +151,6 @@ function Posts({
           />*/}
         </div>
       </div>
-      .
     </div>
   );
 }

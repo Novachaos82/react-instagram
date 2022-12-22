@@ -27,7 +27,7 @@ function Profile() {
   const [meId, setMeId] = useState();
   const [userId, setUserId] = useState();
   const [postCount, setPostCount] = useState();
-  const [isEditing, setIsEditing] = useState(false);
+  //const [isEditing, setIsEditing] = useState(false);
   const userIsMe = meId === userId;
   console.log(userIsMe + "ok");
   const userDisplayImage = userDetails?.displayImage;
@@ -92,11 +92,11 @@ function Profile() {
   };
   const followingHandler = async () => {
     if (!meProfile?.following.includes(userId)) {
-      follow(meId, userId);
+      follow(meId, userId, meProfile.name);
     }
 
     if (meProfile?.following.includes(userId)) {
-      unfollow(meId, userId);
+      unfollow(meId, userId, meProfile.name);
     }
   };
 
@@ -109,10 +109,13 @@ function Profile() {
     setPostCount(newPostCount);
   }, []);
 
-  const nothingHandler = () => {
-    setIsEditing(true);
-    console.log("nothing");
-  };
+  //const nothingHandler = () => {
+  //  setIsEditing(true);
+  //  console.log("nothing");
+  //};
+  //userProfile?.map((doc) => {
+  //  console.log(doc);
+  //});
 
   return (
     <div className="mt-8 flex justify-center">
@@ -132,7 +135,7 @@ function Profile() {
               <div>
                 <div>
                   {userIsMe ? (
-                    <button onClick={nothingHandler}>edit</button>
+                    <button>edit</button>
                   ) : meProfile?.following.includes(userId) && !userIsMe ? (
                     <button disabled={userIsMe} onClick={followingHandler}>
                       Unfollow

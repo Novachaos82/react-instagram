@@ -33,6 +33,7 @@ function PostPopup({
 
   setComment,
   handleSubmit,
+  timestamp,
 }) {
   const auth = getAuth();
   const currentUser = auth.currentUser;
@@ -198,11 +199,11 @@ function PostPopup({
                   })}
                 </div>
                 <div className="h-fit p-2">
-                  <div className="flex p-4 gap-4">
+                  <div className="flex p-4 gap-4 items-center">
                     <div>
                       {!likes.includes(currentUser?.displayName) && (
                         <img
-                          className="h-6 w-6 flex justify-center"
+                          className="h-6 w-6 flex justify-center cursor-pointer"
                           src={like}
                           alt="love-outline"
                           onClick={() => likeHandler(postID)}
@@ -210,14 +211,17 @@ function PostPopup({
                       )}
                       {likes.includes(currentUser?.displayName) && (
                         <img
-                          className="h-6 w-6 flex justify-center"
+                          className="h-6 w-6 flex justify-center cursor-pointer"
                           src={Unlike}
                           alt="love-outline"
                           onClick={() => unlikeHandler(postID)}
                         />
                       )}
                     </div>
-                    <div>{likes.length} likes</div>
+                    <div className="font-semibold">{likes.length} likes</div>
+                  </div>
+                  <div className="font-extralight text-gray-500 text-xs px-5 text-left">
+                    {timestamp.toDate().toDateString()}
                   </div>
                   <CommentHandlng
                     commentHandler={commentHandler}

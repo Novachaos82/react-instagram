@@ -8,11 +8,14 @@ import {
 } from "firebase/firestore";
 import React from "react";
 import { useEffect } from "react";
+import { useCallback } from "react";
 import { useState } from "react";
 import { db } from "../../firebase";
+import ActivityFeedPopup from "./ActivityFeedPopup";
 
 function ActivityFeed({ cancelPopup }) {
   const [profileData, setProfileData] = useState([]);
+  const [activityFeed, setActivityFeed] = useState([]);
   const user = getAuth();
   const currentUser = user.currentUser;
   const gettingFeed = async () => {
@@ -29,19 +32,28 @@ function ActivityFeed({ cancelPopup }) {
     });
     //console.log(profileData);
   };
-  profileData.forEach((doc) => {
-    console.log(doc.activityFeed);
-  });
 
+  //const gettingActivityFeed = () => {
+  //profileData.map((doc) => console.log(doc));
+  //};
+
+  //console.log(activityFeed);
   useEffect(() => {
     gettingFeed();
+    //gettingActivityFeed();
   }, []);
 
   return (
     <div onClick={cancelPopup} className="fixed top-0 left-0 w-screen h-screen">
       <div className="fixed w-[230px] h-[120px] left-[calc(100vw_/_2_+_150px)] top-[57px] bg-white ">
         <div className="absolute w-[100%] h-[100%] rounded-sm bg-black text-white flex overflow-hidden flex-col">
-          something
+          {profileData?.map((doc, index) => {
+            return (
+              <div key={index}>
+                <ActivityFeedPopup activityFeed={doc.activityFeed} />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

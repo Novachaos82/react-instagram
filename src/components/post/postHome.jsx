@@ -115,6 +115,7 @@ function PostHome() {
               uid={post.uid}
               commentHandler={commentHandler}
               comments={post.comment}
+              timestamp={post.timestamp}
             />
           </div>
         );

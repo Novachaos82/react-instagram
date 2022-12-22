@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { AiFillHome, AiFillMessage, AiFillPlusCircle } from "react-icons/ai";
-import { MdOutlineNotifications } from "react-icons/md";
 import Profilepicpopup from "../profile/profilepicpopup";
 import { useAuth } from "../../firebase";
 import instaText from "../../images/images.png";
@@ -10,13 +8,17 @@ import {} from "firebase/firestore";
 import NewPostPopup from "../post/NewPostPopup";
 import Searchbar from "./Searchbar";
 import { useEffect } from "react";
-import ActivityFeed from "./activityFeed";
+//import ActivityFeed from "./activityFeed";
+
+import addPost from "../../images/addPost.svg";
+import home from "../../images/home.svg";
+import message from "../../images/message.svg";
 
 function NavLinks() {
   const currentUser = useAuth();
   const [profilePicPopup, setProfilePicPopup] = useState(false);
   const [postPopup, setPostPopup] = useState(false);
-  const [activityPopup, setActivityPopup] = useState(false);
+  //const [activityPopup, setActivityPopup] = useState(false);
   //const userCollectionRef = collection(db, "users");
 
   const handleProfilePopup = () => {
@@ -28,9 +30,9 @@ function NavLinks() {
     document.body.style.overflow = "hidden";
   };
 
-  const handleActivityPopup = () => {
-    setActivityPopup(!activityPopup);
-  };
+  //const handleActivityPopup = () => {
+  //  setActivityPopup(!activityPopup);
+  //};
 
   useEffect(() => {
     if (!postPopup) document.body.style.overflow = "unset";
@@ -47,45 +49,52 @@ function NavLinks() {
   //}, [userCollectionRef]);
 
   return (
-    <div className=" flex  flex-row justify-center items-center  sticky top-0 w-[100%] bg-white p-2 shadow-md">
-      <div className="text-center flex justify-center items-center gap-5 flex-row">
-        <Link to="/home">
-          <img src={instaText} alt="instatext" className="w-[100px]" />
-        </Link>
-        <Searchbar />
-        <Link to="/home">
-          <AiFillHome size={28} />
-        </Link>
-        <Link to="/inbox">
-          <AiFillMessage size={28} />
-        </Link>
-        <div className="flex justify-center">
-          <button onClick={handlePostPopup}>
-            <AiFillPlusCircle size={28} />
-          </button>
-          {postPopup ? (
-            <NewPostPopup cancelPopup={() => setPostPopup(false)} />
-          ) : null}
+    <div className="     sticky top-0 w-[100%] bg-white p-2 shadow-sm h-[59px] items-center flex justify-center">
+      <div className="text-center flex justify-center items-center  flex-row">
+        <div className="w-[300px]">
+          <Link to="/home">
+            <img src={instaText} alt="instatext" className="w-[100px]" />
+          </Link>
         </div>
-
-        <div>
-          <div onClick={handleProfilePopup} className="relative cursor-pointer">
-            <img
-              className="rounded-full h-8 w-8"
-              src={currentUser?.photoURL}
-              alt="profile"
-            ></img>
+        <div className="flex gap-6 flex-row justify-center items-center">
+          <Searchbar />
+          <Link to="/home">
+            <img src={home} alt="" />
+          </Link>
+          <Link to="/inbox">
+            <img src={message} alt="" />
+          </Link>
+          <div className="flex justify-center">
+            <button onClick={handlePostPopup}>
+              <img src={addPost} alt="" />
+            </button>
+            {postPopup ? (
+              <NewPostPopup cancelPopup={() => setPostPopup(false)} />
+            ) : null}
           </div>
-          {profilePicPopup ? (
-            <Profilepicpopup cancelPopup={() => setProfilePicPopup(false)} />
-          ) : null}
-        </div>
-        <div onClick={handleActivityPopup}>
+
+          <div>
+            <div
+              onClick={handleProfilePopup}
+              className="relative cursor-pointer"
+            >
+              <img
+                className="rounded-full h-8 w-8"
+                src={currentUser?.photoURL}
+                alt="profile"
+              ></img>
+            </div>
+            {profilePicPopup ? (
+              <Profilepicpopup cancelPopup={() => setProfilePicPopup(false)} />
+            ) : null}
+          </div>
+          {/*<div onClick={handleActivityPopup}>
           <MdOutlineNotifications size={28} />
-        </div>
-        {activityPopup ? (
+        </div>*/}
+          {/*{activityPopup ? (
           <ActivityFeed cancelPopup={() => setActivityPopup(false)} />
-        ) : null}
+        ) : null}*/}
+        </div>
       </div>
     </div>
   );

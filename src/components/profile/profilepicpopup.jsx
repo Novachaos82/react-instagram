@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { logout, useAuth } from "../../firebase";
+import { CgProfile } from "react-icons/cg";
 
 function Profilepicpopup({ cancelPopup }) {
   const currentUser = useAuth();
@@ -29,23 +30,21 @@ function Profilepicpopup({ cancelPopup }) {
           e.stopPropagation();
         }}
       >*/}
-      <div className="fixed w-[230px] h-[120px] left-[calc(100vw_/_2_+_150px)] top-[57px] bg-white ">
-        <div className="absolute w-[100%] h-[100%] rounded-sm bg-black text-white flex overflow-hidden flex-col">
+      <div className="fixed w-[230px] h-[80px] left-[calc(100vw_/_2_+_150px)] top-[57px] bg-white rounded-md drop-shadow-lg">
+        <div className="absolute w-[100%] h-[100%] rounded-md bg-white text-black flex overflow-hidden flex-col ">
           <div
-            onClick={handleLogout}
-            className="cursor-pointer hover:bg-blue-300 px-4 py-2"
-          >
-            logout
-          </div>
-          <div className="cursor-pointer  hover:bg-blue-300 px-4 py-2">
-            fuck
-          </div>
-          <div
-            className="cursor-pointer hover:bg-blue-300 px-4 py-2"
+            className="cursor-pointer  px-4 py-2 flex items-center gap-4 border-b hover:bg-[#fafafa]"
             onClick={handleProfileClick}
           >
-            {" "}
+            <CgProfile size={18} />
             Profile
+          </div>
+
+          <div
+            onClick={handleLogout}
+            className="cursor-pointer  px-4 py-2 flex items-center gap-4 border-b hover:bg-[#fafafa]"
+          >
+            logout
           </div>
         </div>
       </div>

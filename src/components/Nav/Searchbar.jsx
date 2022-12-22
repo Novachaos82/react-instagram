@@ -14,7 +14,10 @@ function Searchbar() {
   const inputRef = useRef(null);
 
   useEffect(() => {
-    if (inputValue.length >= 1) fetchUsers();
+    if (inputValue.length >= 1) {
+      fetchUsers();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
     //searchResults.map((res) => {
     //  console.log(res.name);
@@ -49,22 +52,29 @@ function Searchbar() {
     setInputValue(event.target.value);
   };
   return (
-    <div>
+    <div className="mr-6">
       {" "}
       <input
         ref={inputRef}
         value={inputValue}
         placeholder="search"
         onChange={(e) => handleChange(e)}
-        className="outline outline-1 outline-gray-500 px-2 py-1 rounded-md"
+        className=" px-2 py-1 rounded-md border-none bg-[#efefef] outline-none color-[#898989] z-10"
         onClick={searchBarPopupHandler}
       ></input>
-      <SearchBarPopUp
-        searchResults={searchResults}
-        searchBarPopupHandler={searchBarPopupHandler}
-        searchBarPopupShown={searchBarPopupShown}
-        setSearchResults={setSearchResults}
-      />
+      {searchBarPopupShown ? (
+        <SearchBarPopUp
+          inputRef={inputRef}
+          inputValue={inputValue}
+          handleChange={handleChange}
+          searchResults={searchResults}
+          searchBarPopupHandler={searchBarPopupHandler}
+          searchBarPopupShown={searchBarPopupShown}
+          setSearchResults={setSearchResults}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
