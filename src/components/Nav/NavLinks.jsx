@@ -61,9 +61,14 @@ function NavLinks() {
           <Link to="/home">
             <img src={home} alt="" />
           </Link>
-          <Link to="/inbox">
-            <img src={message} alt="" />
-          </Link>
+          {/*<Link to="/inbox">*/}
+          <img
+            className="cursor-pointer"
+            onClick={() => alert("working on it")}
+            src={message}
+            alt=""
+          />
+          {/*</Link>*/}
           <div className="flex justify-center">
             <button onClick={handlePostPopup}>
               <img src={addPost} alt="" />

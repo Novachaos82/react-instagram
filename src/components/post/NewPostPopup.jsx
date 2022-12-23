@@ -72,7 +72,7 @@ function NewPostPopup({ cancelPopup }) {
   return (
     <div
       className="absolute bg-black/70  flex justify-center items-center p-4 top-0 left-0 h-screen w-screen z-50"
-      onClick={cancelPopup}
+      onClick={!loading ? cancelPopup : ""}
     >
       <div className="text-white absolute top-5 right-10 text-4xl cursor-pointer">
         X

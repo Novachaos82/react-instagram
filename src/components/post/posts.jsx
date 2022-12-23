@@ -35,7 +35,6 @@ function Posts({
   //const [postId, setPostID] = useState(null);
 
   const handleSubmit = () => {
-    console.log(comment);
     commentHandler(postID, comment);
   };
 
@@ -88,7 +87,12 @@ function Posts({
               alt=""
               className="cursor-pointer"
             />
-            <img src={share} alt="" />
+            <img
+              onClick={() => alert("working on it")}
+              className="cursor-pointer"
+              src={share}
+              alt=""
+            />
           </div>
 
           <div className="flex justify-start px-5 py-2 font-bold text-sm">

@@ -29,7 +29,7 @@ function Profile() {
   const [postCount, setPostCount] = useState();
   //const [isEditing, setIsEditing] = useState(false);
   const userIsMe = meId === userId;
-  console.log(userIsMe + "ok");
+
   const userDisplayImage = userDetails?.displayImage;
   //const [currentUser, setCurrentUser] = useState();
 
@@ -82,11 +82,9 @@ function Profile() {
 
   const followingChecker = () => {
     if (meProfile?.following.includes(userId)) {
-      console.log("yes following");
       //setFollowing(true);
     }
     if (!meProfile?.following.includes(userId)) {
-      console.log("not following");
       //setFollowing(false);
     }
   };
@@ -135,7 +133,7 @@ function Profile() {
               <div>
                 <div>
                   {userIsMe ? (
-                    <button>edit</button>
+                    ""
                   ) : meProfile?.following.includes(userId) && !userIsMe ? (
                     <button
                       className="unfollow"
@@ -167,11 +165,23 @@ function Profile() {
               </div>
             </div>
             <div className="flex gap-10 text-md capitalize">
-              <div>{postCount}posts</div>
-              <div onClick={followerPopup}>
-                {userProfile?.followers.length}follower
+              <div className="followerAndFollowing">
+                <div className="font-semibold">{postCount}</div>
+                <div>posts</div>
               </div>
-              <div>{userProfile?.following.length}following</div>
+              <div onClick={followerPopup} className="followerAndFollowing">
+                <div className="font-semibold">
+                  {userProfile?.followers.length}
+                </div>
+
+                <div> follower</div>
+              </div>
+              <div className="followerAndFollowing">
+                <div className="font-semibold">
+                  {userProfile?.following.length}
+                </div>
+                <div> follower</div>
+              </div>
             </div>
           </div>
         </div>

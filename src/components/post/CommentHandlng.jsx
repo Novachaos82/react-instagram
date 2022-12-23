@@ -7,16 +7,12 @@ function CommentHandlng({ commentHandler, postID, comments }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(comment);
+
     commentHandler(postID, comment);
 
     setComment("");
   };
-  //useEffect(() => {
-  //  if (comment.length > 0) {
-  //    setDisabled(false);
-  //  }
-  //}, []);
+
   return (
     <form
       onSubmit={handleSubmit}

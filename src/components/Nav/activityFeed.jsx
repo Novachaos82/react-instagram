@@ -1,21 +1,15 @@
 import { getAuth } from "firebase/auth";
-import {
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React from "react";
 import { useEffect } from "react";
-import { useCallback } from "react";
+
 import { useState } from "react";
 import { db } from "../../firebase";
 import ActivityFeedPopup from "./ActivityFeedPopup";
 
 function ActivityFeed({ cancelPopup }) {
   const [profileData, setProfileData] = useState([]);
-  const [activityFeed, setActivityFeed] = useState([]);
+
   const user = getAuth();
   const currentUser = user.currentUser;
   const gettingFeed = async () => {
@@ -26,21 +20,14 @@ function ActivityFeed({ cancelPopup }) {
       let postDocs = [];
       documents.forEach((doc) => {
         postDocs.push(doc.data());
-        //console.log(postDocs);
+
         setProfileData(postDocs);
       });
     });
-    //console.log(profileData);
   };
 
-  //const gettingActivityFeed = () => {
-  //profileData.map((doc) => console.log(doc));
-  //};
-
-  //console.log(activityFeed);
   useEffect(() => {
     gettingFeed();
-    //gettingActivityFeed();
   }, []);
 
   return (

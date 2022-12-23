@@ -17,6 +17,7 @@ import { db } from "../../firebase";
 import like from "../../images/postLike.svg";
 import Unlike from "../../images/postUnlike.svg";
 import CommentHandlng from "./CommentHandlng";
+import { motion } from "framer-motion";
 
 function PostPopup({
   comments,
@@ -40,7 +41,6 @@ function PostPopup({
   const [userID, setUserID] = useState();
 
   const likeHandler = async (postID) => {
-    console.log("wrks");
     let id;
     const selectedPost = query(
       collection(db, "imageDta"),
@@ -56,7 +56,6 @@ function PostPopup({
     await updateDoc(postReference, {
       like: arrayUnion(currentUser?.displayName),
     });
-    console.log(uid);
 
     if (currentUser.uid !== uid) {
       const postUser = collection(db, "users");
@@ -68,9 +67,9 @@ function PostPopup({
       getUser.forEach((doc) => {
         setUserID(doc.id);
       });
-      console.log(userID);
+
       const userReference = doc(db, "users", userID);
-      console.log(userReference);
+
       await updateDoc(userReference, {
         activityFeed: arrayUnion({
           category: "like",
@@ -99,9 +98,8 @@ function PostPopup({
     });
 
     if (currentUser.uid !== uid) {
-      console.log(userID);
       const userReference = doc(db, "users", userID);
-      console.log(userReference);
+
       await updateDoc(userReference, {
         activityFeed: arrayRemove({
           category: "like",
@@ -137,9 +135,8 @@ function PostPopup({
     });
 
     if (currentUser.uid !== uid) {
-      console.log(userID);
       const userReference = doc(db, "users", userID);
-      console.log(userReference);
+
       await updateDoc(userReference, {
         activityFeed: arrayUnion({
           category: "comment",
@@ -150,18 +147,46 @@ function PostPopup({
       });
     }
   };
+
+  let popupVariant = {
+    hidden: {
+      x: 0,
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      y: "0",
+      borderRadius: 10,
+      transition: {
+        delay: 0.1,
+        duration: 0.8,
+        type: "tween",
+        damping: 100,
+        stiffness: 500,
+      },
+    },
+
+    exit: {
+      y: "100vh",
+      opacity: 0,
+    },
+  };
   return (
     <div key={postID}>
       {commentPopupShown ? (
         <div
-          className="fixed top-0 left-0 w-screen h-screen bg-[#595959]"
+          className="fixed top-0 left-0 w-screen h-screen bg-[#595959] z-10"
           onClick={commentPopupHandler}
         >
-          <div
+          <motion.div
             className="fixed w-5/6 h-5/6 left-[calc(20vw-200px)]  top-[57px] bg-white rounded-xl"
             onClick={(e) => {
               e.stopPropagation();
             }}
+            variants={popupVariant}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
           >
             <div className="absolute w-[100%] h-[100%]  bg-[#fff]  flex overflow-hidden flex-row rounded-xl">
               <img
@@ -171,7 +196,7 @@ function PostPopup({
               />
               <div className="w-2/6 ">
                 <Link to={"/profile/" + uid}>
-                  <div className="flex items-center p-4 gap-3 border-b border-black w-full h-[10%]">
+                  <div className="flex items-center p-4 gap-3 border-b border-[#ccc] w-full h-[10%]">
                     <img
                       src={profilePic}
                       alt={profileName}
@@ -231,7 +256,7 @@ function PostPopup({
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       ) : (
         ""

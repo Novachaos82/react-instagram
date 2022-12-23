@@ -7,7 +7,6 @@ import { db } from "../../firebase";
 import SearchBarPopUp from "./SearchBarPopUp";
 
 function Searchbar() {
-  //  const [searchBarPopupShown, setSearchBarPopupShown] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [searchBarPopupShown, setSearchBarPopupShown] = useState(false);
@@ -18,10 +17,6 @@ function Searchbar() {
       fetchUsers();
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    //searchResults.map((res) => {
-    //  console.log(res.name);
-    //});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
 
@@ -42,7 +37,6 @@ function Searchbar() {
     const querySnapshot = await getDocs(q);
     let resultsArr = [];
     querySnapshot.forEach((doc) => {
-      //console.log(resultsArr);
       resultsArr.push(doc.data());
     });
     setSearchResults(resultsArr);

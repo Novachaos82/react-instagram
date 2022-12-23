@@ -11,12 +11,6 @@ function SearchBarPopUp({
   inputValue,
   handleChange,
 }) {
-  //  useEffect(() => {
-  //    searchResults.map((res) => {
-  //      console.log(res.name);
-  //    });
-  //  }, [searchResults]);
-
   const clearAll = () => {
     setSearchResults([]);
     console.log(searchResults);
@@ -28,7 +22,7 @@ function SearchBarPopUp({
         onClick={searchBarPopupHandler}
       >
         <div
-          className="fixed w-[500px] h-[450px]  left-[calc(100vw_/_2_-_300px)] top-[57px] bg-white drop-shadow-md rounded-md flex  flex-col items-start "
+          className="fixed w-[500px] h-[450px]  left-[calc(100vw_/_2_-_250px)] top-[57px] bg-white drop-shadow-md rounded-md flex  flex-col items-start "
           onClick={(e) => {
             e.stopPropagation();
           }}
