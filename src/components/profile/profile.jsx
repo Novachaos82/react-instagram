@@ -180,7 +180,7 @@ function Profile() {
                 <div className="font-semibold">
                   {userProfile?.following.length}
                 </div>
-                <div> follower</div>
+                <div> following</div>
               </div>
             </div>
           </div>
